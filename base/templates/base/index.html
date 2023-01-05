@@ -1,0 +1,16 @@
+{%extends 'main.html'%}
+
+{%block content%}
+<div class="flex justify-center items-center mt-20">
+    <div class="mt-10">
+        <img src="http://127.0.0.1:5000/static/base/images/logo.png" alt="">
+        <div class="flex items-center justify-center m-auto">
+            <a href="{% url 'login_page' %}" class="w-7/12 text-center relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+                <span class="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    Get Started!
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+{%endblock%}

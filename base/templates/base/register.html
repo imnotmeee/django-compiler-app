@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+  
+{% block content %}
+<section class="h-full gradient-form bg-gray-400 h-full">
+  <div class="container py-12 px-6 h-screen m-auto">
+    <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
+      <div class="xl:w-10/12">
+        <div>
+          <div class="flex items-center">
+            <div class="lg:w-6/12 px-4 md:px-0">
+              <div class="md:p-12 md:mx-6">
+                <div class="text-center">
+                  <img
+                    class="mx-auto"
+                    width="60"
+                    src="http://localhost:5000/static/base/images/output.png"
+                    alt="logo"
+                    draggable="false"
+                  />
+                  <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">The Team ONE</h4>
+                </div>
+                
+                
+
+                <form method="POST" action="{% url 'register_page' %}">
+                    {% csrf_token %}
+                    
+                    {% for message in messages %}
+                    <div class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                        <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                        {{message}}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="mb-1">
+                        {{form.username}}
+                    </div>
+                    <div class="mb-1">
+                        {{form.email}}
+                    </div>
+                    <div class="mb-1">
+                        {{form.password1}}
+                    </div>
+                    <div class="mb-5">
+                        {{form.password2}}
+                    </div>
+                    <div class="text-center pt-1 mb-12 pb-1">
+                        <button
+                            type="submit"
+                            name="submit"
+                            data-mdb-ripple="true"
+                            data-mdb-ripple-color="light"
+                            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
+                            >
+                            SIGN UP
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between pb-6">
+                        <p class="mb-0 mr-2">Already have an account?</p>
+                        <a href="{% url 'login_page' %}">
+                        <button
+                            type="button"
+                            class="w-full shadow bg-gray-700 hover:bg-gray-500 focus:shadow-outline focus:outline-none text-white font-bold p-2 px-4 rounded"
+                            data-mdb-ripple="true"
+                            data-mdb-ripple-color="light"
+                        >
+                        Sign In
+                        </button>
+                        </a>
+                    </div>
+                </form>
+
+
+
+              </div>
+            </div>
+
+            <img src="http://localhost:5000/static/base/images/logo.png" width="350" height="300" class="m-auto" alt="">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    const placeholders = ['John Doe', 'dojohn@gmail.com', '*************', '*************']
+    document.querySelectorAll('input').forEach((v, i) => {
+      v.classList = 'bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mb-1'
+      v.placeholder = placeholders[i-1]
+    })
+</script>
+</section>
+{%endblock%}

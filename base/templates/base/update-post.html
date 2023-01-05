@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<!-- component -->
+<div style="margin-top: 70px;">
+    <form method="post" action="{% url 'update-post-page' post.id %}" class="grid">
+      {% csrf_token %}
+      <div class="heading text-center font-bold text-2xl text-gray-500 my-5">Update {{post.title}}</div>
+      <div class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-200 p-4 shadow-lg max-w-2xl">
+        <input id="title" name="title" class="title bg-gray-50 border border-gray-300 p-2 mb-4 outline-none" spellcheck="false" placeholder="Title" type="text" value="{{post.title}}">
+        <textarea id="code-editor" name="source" spellcheck="false">{{post.source}}</textarea>
+            
+        <!-- icons -->
+        <div class="flex items-center">
+          <h2 class="text-gray-400">Select what language: </h2>
+
+          <input type="text" value="{{post.lang}}" class="ml-2 rounded-sm px-1" name="lang" id="lang" readonly>
+
+        </div>
+        <div class="icons flex text-gray-500 m-2">
+            {% for cat in category %}
+              <img width="30" onclick="selectLang('{{cat.lang}}')" class="mr-4 cursor-pointer" src="http://localhost:5000/static/base/images/languages/{{cat.lang}}.png" alt="">
+            {%endfor%}
+            <div class="count ml-auto text-gray-400 text-xs font-semibold">0/300</div>
+        </div>
+        <textarea name="description" class="description bg-gray-50 sec p-1 mb-2 h-10 w-full border border-gray-300 outline-none" spellcheck="false" placeholder="Description">{{post.description}}</textarea>
+        <!-- buttons -->
+        <div class="buttons flex ml-auto">
+          <a href="{% url 'post' post.id %}">
+            <div class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto">
+              Cancel
+            </div>
+          </a>
+
+          <button type="submit" class="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-blue-500">Update</button>
+
+        </div>
+      </div>
+
+    
+    <script>
+      function styleEditor(mode = 'javascript'){
+        var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+          value: '// write your code here',
+          mode,  // Set the language mode
+          theme: 'material',  // Use the Material theme
+          lineNumbers: true   // Show line numbers,
+        });
+      }
+      styleEditor()
+      function selectLang(language){
+        let lang = document.getElementById('lang');
+        lang.setAttribute('value', language)
+      }
+    </script>
+
+  </form>
+</div>
+{% endblock %}

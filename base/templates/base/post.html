@@ -1,0 +1,86 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="mt-20  bg-gray-100 h-screen">
+
+   {% if request.user.id == post.user.id %}
+   <div class="flex justify-center pb-5 pt-6">
+      <div class="mr-8">
+         <a href="{% url 'update-post-page' post.id %}">
+            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+               <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                  Update
+               </span>
+            </button>
+         </a>
+         <a href="{% url 'delete-post-page' post.id %}">
+            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+               <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                  Delete
+               </span>
+            </button>
+         </a>
+      </div>
+      <a href="{% url 'posts-page' %}#{{post.id}}">
+         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+               Back
+            </span>
+         </button>
+      </a>
+   </div>
+   {% else %}
+   <div class="flex justify-center pb-5 pt-6">
+      <a href="{% url 'posts-page' %}">
+         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+               Back
+            </span>
+         </button>
+      </a>
+   </div>
+   {% endif %}
+
+   <div class="flex flex-wrap items-center justify-evenly">
+       <div class="w-7/12 m-2 my-3 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+               <div class="flex items-center">
+                  <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-200 rounded-full dark:bg-gray-600">
+                     <span class="font-medium text-gray-600 dark:text-gray-300">{{post.first_two_letters}}</span>
+                  </div>
+                  <p class="text-gray-500 font-medium ml-1">{{post.user.username}}</p>
+               </div>
+               <div class="flex items-center text-gray-500 font-small">
+                  <p class="mr-2">{{created}}</p>
+                  <img src="http://127.0.0.1:5000/static/base/images/languages/{{post.lang}}.png" alt="{{post.lang}}">
+               </div>
+            </div>   
+
+          <h5 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{post.title}}</h5>
+          {% if post.description %}
+          <p class="mb-2 tracking-tight text-gray-900 dark:text-white">{{post.description}}</p>
+          {%endif%}
+          <textarea id="code-editor" name="source" readonly style="width: 100%; height: 150px; padding: 5px;">{{post.source}}</textarea><br>
+          
+          <!-- DISPLAY HERE THE OUTPUT -->
+          {% if output is not None %}
+             {% if output.is_str and output.is_err %}
+                <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-red-600 relative">
+                   <p class="break-all">{{output.output}}</p>
+                </div>
+             {% elif output.is_str and not output.is_err %}
+                <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-green-600 relative">
+                   <p class="break-all">{{output.output}}</p>
+                </div>
+             {% else %}
+                <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-green-600 relative">
+                   {% for out in output.output %}
+                      <p class="break-all">{{out}}</p>
+                   {%endfor%}
+                </div>
+             {% endif %}
+          {%endif%}
+       </div>
+   </div>
+</div>
+{%endblock%}

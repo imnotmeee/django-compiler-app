@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/mode/javascript/javascript.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" />
+    <title>Kompayler</title>
+    <style>
+        textarea {
+            font-family: monospace;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            color: #6b6b6b;
+            padding: 10px;
+            width: 500px;
+            height: 300px;
+        }
+        body {
+            scroll-behavior: smooth;
+        }
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: white;
+        }
+        .user_card {
+            width: 350px;
+            margin-top: auto;
+            margin-bottom: auto;
+            background: #74cfbf;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+
+        }
+        .form_container {
+            margin-top: 20px;
+        }
+
+        #form-title{
+            color: #fff;
+        }
+        .login_btn {
+            width: 100%;
+            background: #33ccff !important;
+            color: white !important;
+        }
+        .login_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        .login_container {
+            padding: 0 2rem;
+        }
+        .input-group-text {
+            background: #f7ba5b !important;
+            color: white !important;
+            border: 0 !important;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+        .input_user,
+        .input_pass:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+
+    </style> 
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    {% block content %} 
+    {% endblock %}
+</body>
+</html>

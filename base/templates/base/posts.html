@@ -1,0 +1,95 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="flex relative">
+   <aside class="w-3/12 fixed" aria-label="Sidebar">
+      <div class="overflow-y-auto py-4 px-3 bg-gray-50 h-screen shadow-md pt-20 border-r-4 border-gray-200">
+
+         <!-- SEARCH -->
+         <form  method="GET" action="{% url 'posts-page' %}"> 
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input name="q" type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border-2 border-gray-300 outline-none rounded-lg bg-gray-50 focus:ring-gray-300 focus:border-gray-400 dark:bg-gray-300 dark:border-gray-400 dark:placeholder-gray-300 dark:text-white dark:focus:ring-gray-300 dark:focus:border-gray-300" placeholder="Search posts..." required>
+                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Search</button>
+            </div>
+         </form>
+         <h2 class="p-5 pl-4 text-gray-400">Search posts or filter by language</h2>
+         <ul class="space-y-2">
+            {% for cat in category %}
+               <li class="px-2">
+                  <a href="{% url 'posts-page' %}?q={{cat.lang}}" class="flex items-center p-2 text-base font-normal text-gray-700 hover:text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                     <img src="http://127.0.0.1:5000/static/base/images/languages/{{cat.lang}}.png" alt="{{cat.lang}}">
+                     <h2 class="text-2xl ml-5">{{cat.lang}}</h2>
+                  </a>
+               </li>
+            {% endfor %}
+         </ul>
+      </div>
+   </aside>
+ 
+   <div class="w-3/12"></div>
+
+   <div class="w-9/12 bg-gray-50 pb-10" style="padding-top: 65px;">
+      <header class="p-6 text-center">
+         <h2 class="text-gray-500 font-bold mb-1 py-2 border-b-4 border-gray-300 px-5 m-auto" style="width: fit-content;">{{total_posts}} total posts</h2>
+         <div class="flex flex-wrap items-center justify-evenly">
+            {% for post in posts %}
+               <div class="w-5/12 m-2 my-3 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                  
+                  <div class="flex items-center justify-between mb-2">
+                     <img src="http://127.0.0.1:5000/static/base/images/languages/{{post.lang}}.png" alt="{{post.lang}}">
+                     <div class="flex items-center">
+                        <div id="{{post.first_two_letters}}" class="bg-gray-600 inline-flex overflow-hidden relative justify-center items-center w-10 h-10 rounded-full dark:bg-gray-600">
+                           <a href="{% url 'other_profile_page' post.user.id %}">
+                              <span class="font-medium text-gray-100">{{post.first_two_letters}}</span>
+                           </a>
+                        </div>
+                        <p class="text-gray-500 font-medium ml-1">{{post.user.username}}</p>
+                     </div>
+                     <a href="{% url 'posts-page-id' post.id %}#{{post.id}}" id="{{post.id}}">
+                        <img src="http://127.0.0.1:5000/static/base/images/languages/run.png" class="cursor-pointer" alt="{{post.lang}}">
+                     </a>
+                  </div>   
+
+                  <h5 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{post.title_length}}</h5>
+                  {% if post.description %}
+                  <p class="mb-2 tracking-tight text-gray-900 dark:text-white">{{post.description_length}}</p>
+                  {%endif%}
+                  <textarea id="code-editor" name="source" readonly style="width: 100%; height: 150px; padding: 5px;">{{post.source}}</textarea><br>
+                  
+                  <!-- DISPLAY HERE THE OUTPUT -->
+                  {% if output is not None and id == post.id %}
+                     {% if output.is_str and output.is_err %}
+                        <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-red-600 relative">
+                           <p class="break-all">{{output.output}}</p>
+                        </div>
+                     {% elif output.is_str and not output.is_err %}
+                        <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-green-600 relative">
+                           <p class="break-all">{{output.output}}</p>
+                        </div>
+                     {% else %}
+                        <div class="text-left border-2 border-gray-200 rounded-md p-1 text-md bg-white text-green-600 relative">
+                           {% for out in output.output %}
+                              <p class="break-all">{{out}}</p>
+                           {%endfor%}
+                        </div>
+                     {% endif %}
+                  {%endif%}
+
+                  <a href="{% url 'post' post.id %}" class="inline-flex items-center text-blue-600 hover:underline">
+                     Details
+                     <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
+                  </a>
+               </div>
+
+            {% endfor %}
+            </div>
+         </header>
+   </div>
+</div>
+
+{% endblock %}
